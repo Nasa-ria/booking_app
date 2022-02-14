@@ -1,0 +1,16 @@
+<div>
+    <h1>fill the form</h1>
+</div>
+
+<form method="Post">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <div>
+    <label for=""> Booking Date</label>
+    <input type="date" name="slot_date" required>
+</div><br>
+<div>
+    <label for=""> Quantity  of Slot</label>
+    <input type="text" name="quantity" required>
+</div><br>
+<button type="submit" value="Submit"> submit</button>
+</form>

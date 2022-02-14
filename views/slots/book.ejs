@@ -1,0 +1,22 @@
+<form method="Post">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+<div>
+    <label for=""> Phone Number </label>
+    <input type="number" name="phone_number" placeholder="020*******"><br>
+</div>
+
+
+<div>
+    <label for=""> booking date</label>
+    <input type="text" name="booking_date" value="<%= slot.slot_date %>" readonly >
+</div>
+  
+<div>
+    <span > Service  </span>
+    <textarea type="text" name="service" placeholder=" which of our service  would you like "></textarea>
+</div>
+
+
+<button  type="submit" value="Submit"> submit</button>
+
+</form></div>

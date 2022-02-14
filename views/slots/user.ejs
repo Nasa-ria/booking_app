@@ -1,0 +1,23 @@
+
+<form method="post" action="/slots/update-user" >
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <div>
+        <label for=""> Phone Number </label>
+        <input type="number" name="phone_number" value="<%= user.phone_number %>" readonly>
+    </div>
+    
+    <div>
+        <label for=""> Name</label>
+        <input type="text" name="name">
+    </div>
+    <div>
+        <label for=""> Password</label>
+        <input type="text" name="password">
+    </div>
+    
+    
+    <button  type="submit" value="Submit"> submit</button>
+    
+
+    </form>
+

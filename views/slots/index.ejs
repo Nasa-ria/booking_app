@@ -1,0 +1,19 @@
+<div>
+    <div >
+        <ul> 
+           
+    <% if (typeof slots != 'undefined'){  %> 
+        <%	slots.forEach((slot) =>{ %>
+            <li> 
+    <p>slot date : <%- slot.slot_date.getDate() %>-0<%- slot.slot_date.getMonth() %>-<%- slot.slot_date.getFullYear() %></p>
+    <p>quantity: <%- slot.quantity %></p>
+
+   
+    <a href="/slots/book/<%= slot._id %>">book an appointment</a>
+    <% }) %>
+    <%}%>
+</li>
+</ul>  
+</div>
+   
+</div>

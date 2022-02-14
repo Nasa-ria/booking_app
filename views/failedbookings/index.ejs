@@ -1,0 +1,18 @@
+<div>
+    <div >
+        <ul> 
+           
+    <% if (typeof failedbookings != 'undefined'){  %> 
+        <%	failedbookings.forEach((failedbooking) =>{ %>
+            <li> 
+    <p> Name : <%- failedbooking.name %> </p>
+    <p>Phone Number: <%- failedbooking.phone_number %> </p>
+    <p>Email: <%- failedbooking.email %> </p>
+    <p>Booking Date: <%- failedbooking.booking_date %> </p>   
+    <% }) %>
+    <%}%>
+</li>
+</ul>  
+</div>
+    
+</div>

@@ -1,0 +1,33 @@
+
+
+<div>
+    <% if(typeof error != 'undefined'){ %>
+        <div class ="failedfeeback"><%= error %></div>
+    <% } %>
+    <% if (typeof success != 'undefined'){ %>
+    <div class="successfeedback"><%= success %></div>
+    <% } %>
+    </div>
+
+
+<form method="post" action="/bookings/update_user" >
+    <h4>Please fill this form </h4>
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <div>
+        <label for=""> Name</label>
+        <input type="text" name="name">
+    </div>
+    <div>
+        <label for=""> Password</label>
+        <input type="text" name="password">
+    </div>
+    <div>
+        <label for=""> Phone Number </label>
+        <input type="number" name="phone_number" value="<%= user.phone_number %>" readonly>
+    </div>
+    
+    <button  type="submit" value="Submit"> submit</button>
+    
+
+    </form>
+

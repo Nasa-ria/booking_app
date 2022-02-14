@@ -1,0 +1,20 @@
+<h1>bookings</h1>
+<button> <a href="/bookings/add"> book an appointment now </a></button>
+
+
+<div>
+    <div >          
+    <% if (typeof bookings != 'undefined'){  %> 
+        <%	bookings.forEach((booking) =>{ %>
+           <p>
+               
+    Dear,<%= booking.user.name %> ,you booked an appoint on
+     <%= booking.slot.slot_date.getDate() %> -0<%= booking.slot.slot_date.getMonth() %>-<%= booking.slot.slot_date.getFullYear() %> ,with
+    <%= booking.user.phone_number %> as your phone number. You booked an  appointment for  <%= booking.service %> .Hope you enjoy our sevice.
+    </p>
+    <% }) %>
+    <%}%>  
+</div>
+   
+</div>
+<div><%-booking_display %></div>
