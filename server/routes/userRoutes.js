@@ -8,6 +8,10 @@ const router = require("express").Router();
 
 router.get('/',controller.index)
 
+router.get('/login',controller.login)
+
+router.get('/profile',controller.profile)
+
  router.get('/edit/:user_id',controller.edit)
 router.post('/edit/:user_id',controller.update)
 
