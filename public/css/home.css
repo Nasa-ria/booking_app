@@ -3,9 +3,9 @@ box-sizing: border-box;
 margin: 0;
 border: 0;
 }
- body{
+ /* body{
 background-color: black;
-}
+} */
 .nav{
     display: flex;
     justify-content: center;

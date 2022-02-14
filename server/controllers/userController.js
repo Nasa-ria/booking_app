@@ -5,8 +5,22 @@ exports.index = async(req,res)=>{
     res.render("users/index",{title:"Users"})
 }
 
-exports.edit = async(req,res)=>{
-   
+exports.login = async(req,res)=>{
+    res.locals.csrfToken = req.csrfToken()
+    res.render("users/login",{title:"login-form"})
+}
+exports.authenticate = async(req,res) =>{
+    res.redirect(302,)
+}
+
+exports.profile = async(req,res)=>{
+    res.render("users/profile",{title:"Users-profile"})
+}
+
+
+
+
+exports.edit = async(req,res)=>{ 
 res.render("users/edit",{title:"User Form"})
 
 }

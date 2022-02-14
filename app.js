@@ -7,30 +7,30 @@ const cookieparser = require("cookie-parser")
 const csurf = require("csurf");
 const session =require('express-session'); 
 const csrf =require("csurf");
- const passport = require("passport")
- const LocalStrategy = require ("passport-local")
+//  const passport = require("passport")
+//  const LocalStrategy = require ("passport-local")
 app = express()
 
 
 
 // passport middleware
-router.use(passport.initialize());
-router.use(passport.session());
+// router.use(passport.initialize());
+// router.use(passport.session());
 
-passport.use(
-    new LocalStrategy(function verify(username,password,cd){
-        const user ={};
-        return cb(null,user)
-    })
-);
+// passport.use(
+//     new LocalStrategy(function verify(username,password,cd){
+//         const user ={};
+//         return cb(null,user)
+//     })
+// );
 
-passport.serializeUser(function(user,cd){
-    return cd(null,user)
-});
+// passport.serializeUser(function(user,cd){
+//     return cd(null,user)
+// });
 
-passport.deserializeUser(function(user,cd){
-    return cd(null,user)
-});
+// passport.deserializeUser(function(user,cd){
+//     return cd(null,user)
+// });
 
 
 
