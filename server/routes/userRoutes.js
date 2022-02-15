@@ -2,6 +2,7 @@
 const express = require("express");
 // requiring the appcontroller to to anble users
 const controller = require("../controllers/userController")
+const User = require ("../models/User")
 const passport = require("passport")
 const LocalStrategy = require ("passport-local")
 
@@ -10,9 +11,16 @@ const LocalStrategy = require ("passport-local")
 const router = require("express").Router();
 
 passport.use(
-    new LocalStrategy(function verify(username,password,cd){
-        const user ={};
-        return cb(null,user)
+    new LocalStrategy(async function verify(username,password,cb){
+      const user = await User.findOne({phone_number :username})
+      if(user){
+         if(user.password === password)
+         return cb(null,user)  /* verification succesfull */
+         } 
+          
+         return cb(null , false); /* verification failed */
+        
+     
     })
 );
 
@@ -35,7 +43,7 @@ router.get('/login',controller.login)
 // outsourcing the authication to  passport
 router.post('/login',
 // middleware
-passport.authenticate("local",{failureRedirect:"/login"}),
+passport.authenticate("local",{failureRedirect:"/users/login"}),
 controller.authenticatelogin
 )
 

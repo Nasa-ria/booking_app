@@ -7,10 +7,11 @@ exports.index = async(req,res)=>{
 
 exports.login = async(req,res)=>{
     res.locals.csrfToken = req.csrfToken()
-    res.render("users/login",{title:"login-form"})
+    res.render("users/login",{title:"login-formn",})
 }
 exports.authenticatelogin = async(req,res) =>{
-    res.redirect(302,)
+    // console.log(req.body)
+    res.redirect(302,"/")
 }
 
 exports.profile = async(req,res)=>{

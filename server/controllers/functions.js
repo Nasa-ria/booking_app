@@ -10,6 +10,7 @@ exports.getuser = async(phone_number)=>{
     if(!user){
        user = new User({
            phone_number:phone_number
+		   
        })
        await user.save()
   
