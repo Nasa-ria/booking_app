@@ -32,7 +32,12 @@ passport.deserializeUser(function(user,cd){
 router.get('/',controller.index)
 
 router.get('/login',controller.login)
-router.post('/login',controller.authenticate)
+// outsourcing the authication to  passport
+router.post('/login',
+// middleware
+passport.authenticate("local",{failureRedirect:"/login"}),
+controller.authenticatelogin
+)
 
 
 router.get('/profile',controller.profile)

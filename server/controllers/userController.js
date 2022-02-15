@@ -9,7 +9,7 @@ exports.login = async(req,res)=>{
     res.locals.csrfToken = req.csrfToken()
     res.render("users/login",{title:"login-form"})
 }
-exports.authenticate = async(req,res) =>{
+exports.authenticatelogin = async(req,res) =>{
     res.redirect(302,)
 }
 

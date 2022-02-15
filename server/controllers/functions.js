@@ -1,4 +1,5 @@
 const User = require("../models/User")
+const Booking = require("../models/Booking")
 
 //  checking for user exist ,if not save in db
 // export is used because is will be imported in other files 
@@ -14,3 +15,26 @@ exports.getuser = async(phone_number)=>{
   
     }  return user;
 }
+
+// check if user has already book and if yes it add to it either than create a bookings display
+exports. booking_user = (bookings) => {
+	let display = "<div>";
+	if (bookings) {
+		let user = "";
+		bookings.forEach((booking, index) => {
+			if (user != booking.user._id) {
+				display += "<ul>" + "<li>" + "client Name :" + booking.user.name + "<br>";
+				display += "booking date:" + booking.slot.slot_date.toDateString() + "<br>";
+				display += "service opted for :" + booking.service + "<br>";
+				user = booking.user._id;
+			} else {
+				display +=
+					"booking date:" + booking.slot.slot_date.toDateString() + "<br>" ;
+                    display += "service opted for :" + booking.service + "</ul>" + "</dv>";
+			}
+		});
+	} else {
+		display = "no bookings found";
+	}
+	return display;
+};

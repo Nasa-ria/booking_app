@@ -7,33 +7,35 @@ const User = require("../models/User");
 
 const Util = require("./functions");
 
-const booking_user = (bookings) => {
-	let display = "<ul>";
-	if (bookings) {
-		let user = "";
-		bookings.forEach((booking, index) => {
-			if (user != booking.user._id) {
-				display += "<li>" + "client Name :" + booking.user.name + "</li>";
-				display += "booking date:" + booking.slot.slot_date.toString() + "<br>";
-				display += "service opted for :" + booking.service + "<br>";
-				user = booking.user._id;
-			} else {
-				display +=
-					"booking date:" + booking.slot.slot_date.toString() + "</ul>";
-			}
-		});
-	} else {
-		display = "no bookings found";
-	}
-	return display;
-};
+// const booking_user = (bookings) => {
+// 	let display = "<ul>";
+// 	if (bookings) {
+// 		let user = "";
+// 		bookings.forEach((booking, index) => {
+// 			if (user != booking.user._id) {
+// 				display += "<li>" + "client Name :" + booking.user.name + "</li>";
+// 				display += "booking date:" + booking.slot.slot_date.toString() + "<br>";
+// 				display += "service opted for :" + booking.service + "<br>";
+// 				user = booking.user._id;
+// 			} else {
+// 				display +=
+// 					"booking date:" + booking.slot.slot_date.toString() + "</ul>";
+// 			}
+// 		});
+// 	} else {
+// 		display = "no bookings found";
+// 	}
+// 	return display;
+// };
 
 exports.index = async (req, res) => {
 	const bookings = await Booking.find({})
 		.populate("user")
 		.populate("slot")
 		.sort({ user: -1, slot: 1 });
-	let booking_display = booking_user(bookings);
+	let booking_display = await Util.booking_user(bookings);
+	// const user = await Util.getuser(phone_number);
+
 	console.log(bookings);
 	res.render("bookings/index", {
 		title: "Booking",
