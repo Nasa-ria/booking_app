@@ -35,9 +35,18 @@ passport.deserializeUser(function(user,cd){
     return cd(null,user)
 });
 
+// const authenticate =(req,res,next) =>{
+//     res.locals.isAuthenticated = false;
+//     if(req.isAuthenticated()){
+//         res.locals.isAuthenticated = true;
+//         next()
+//     }else{
+//         res.redirect('/login')
+//     }
+// }
 
 
-router.get('/',controller.index)
+// login routers
 
 router.get('/login',controller.login)
 // outsourcing the authication to  passport
@@ -46,11 +55,12 @@ router.post('/login',
 passport.authenticate("local",{failureRedirect:"/users/login"}),
 controller.authenticatelogin
 )
-
-
 router.get('/profile',controller.profile)
+// router.use(authenticate)
 
 
+
+router.get('/',controller.index)
  router.get('/edit/:user_id',controller.edit)
 router.post('/edit/:user_id',controller.update)
 

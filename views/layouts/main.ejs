@@ -9,17 +9,21 @@
     <title><%-title %></title>
 </head>
 <body>
-   <!-- < -->
+   
+
      <nav class=" nav ">
+        <!-- <% if(typeof isAuthenticated !== 'undefined' && isAuthenticated){ %> -->
         <ul class="nav_ul">
+     
             <li class="nav_list"> <a href ="/">Home</a></li>
             <li class="nav_list"><a href ="/slots">Slots</a></li>
             <li class="nav_list"><a href ="/bookings">Bookings</a></li>
             <li class="nav_list"><a href ="/users/login">Login</a></li>
            
         </ul>
+        <!-- <% } %> -->
     </nav>
-    
+
     <%- body -%>
 
     <footer>
