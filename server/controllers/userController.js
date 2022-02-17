@@ -7,7 +7,7 @@ exports.index = async(req,res)=>{
 
 exports.login = async(req,res)=>{
     res.locals.csrfToken = req.csrfToken()
-    res.render("users/login",{title:"login-formn",})
+    res.render("users/login",{title:"login-formn"})
 }
 exports.authenticatelogin = async(req,res) =>{
     // console.log(req.body)

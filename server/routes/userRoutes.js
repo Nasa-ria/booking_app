@@ -1,10 +1,12 @@
 // requiring exress
 const express = require("express");
-// requiring the appcontroller to to anble users
-const controller = require("../controllers/userController")
-const User = require ("../models/User")
 const passport = require("passport")
 const LocalStrategy = require ("passport-local")
+
+// requiring the appcontroller to to enable users
+const controller = require("../controllers/userController")
+const User = require ("../models/User")
+
 
 
 // creating a variable tha holds object for declaring route within our application
@@ -12,8 +14,10 @@ const router = require("express").Router();
 
 passport.use(
     new LocalStrategy(async function verify(username,password,cb){
-      const user = await User.findOne({phone_number :username})
+        // checks if the phone number inputed  matches 
+      const user = await User.findOne({phone_number:username})
       if(user){
+        //   and the password too
          if(user.password === password)
          return cb(null,user)  /* verification succesfull */
          } 
@@ -24,43 +28,49 @@ passport.use(
     })
 );
 
+passport.serializeUser(function(user,cb){
+    return cb(null,user)
+});
+
+passport.deserializeUser(function(user,cb){
+    return cb(null,user)
+});
+
 router.use(passport.initialize());
 router.use(passport.session());
 
-passport.serializeUser(function(user,cd){
-    return cd(null,user)
-});
 
-passport.deserializeUser(function(user,cd){
-    return cd(null,user)
-});
+const loginAuthentication = (req,res,next) =>{
+    res.locals.isAuthenticated = false;
+    if(req.isAuthenticated()){
+        res.locals.isAuthenticated = true;
+        next()
+    }else{
+        res.redirect('/users/login')
+    }
+}
 
-// const authenticate =(req,res,next) =>{
-//     res.locals.isAuthenticated = false;
-//     if(req.isAuthenticated()){
-//         res.locals.isAuthenticated = true;
-//         next()
-//     }else{
-//         res.redirect('/login')
-//     }
-// }
+
 
 
 // login routers
 
-router.get('/login',controller.login)
+router.get('/users/login',controller.login)
 // outsourcing the authication to  passport
-router.post('/login',
+router.post('/users/login',
 // middleware
 passport.authenticate("local",{failureRedirect:"/users/login"}),
 controller.authenticatelogin
 )
-router.get('/profile',controller.profile)
-// router.use(authenticate)
+
+
+router.use(loginAuthentication)
+
+router.get('/users/profile',controller.profile)
 
 
 
-router.get('/',controller.index)
+router.get('/users',controller.index)
  router.get('/edit/:user_id',controller.edit)
 router.post('/edit/:user_id',controller.update)
 

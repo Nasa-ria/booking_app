@@ -24,7 +24,7 @@ exports. booking_user = (bookings) => {
 		let user = "";
 		bookings.forEach((booking, index) => {
 			if (user != booking.user._id) {
-				display += "<ul>" + "<li>" + "client Name :" + booking.user.name + "<br>";
+				display +=   "client Name :" + booking.user.name + "<br>";
 				display += "booking date:" + booking.slot.slot_date.toDateString() + "<br>";
 				display += "service opted for :" + booking.service + "<br>";
 				user = booking.user._id;

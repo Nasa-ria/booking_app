@@ -47,7 +47,8 @@ app.use(session({
     secret:process.env.SECRET,
     resave:true,
     saveUninitialized:true,
-    cookie:{secure:false}
+    cookie: { maxAge: 1 * 60 * 1000 ,secure:false} // 5mins
+  
 }))
 
 // allows  acces
@@ -67,6 +68,13 @@ app.set("layout","./layouts/main")
 app.set("view engine","ejs")
 
 // requiring approute
+
+const userroute = require("./server/routes/userRoutes");
+app.use('/',userroute)
+
+
+
+
 const route = require("./server/routes/pageRoutes")
 app.use('/',route)
 
@@ -81,8 +89,7 @@ const failedbookingroute = require("./server/routes/failedbookingRoutes")
 app.use('/failedbookings',failedbookingroute)
 
 
-const userroute = require("./server/routes/userRoutes");
-app.use('/users',userroute)
+
 
 // error hadler 404
 app.all('*' ,(req,res)=>{

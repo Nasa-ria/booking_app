@@ -51,6 +51,7 @@ exports.delete = async(req,res) =>{
 }
 // book
  exports.book  =async(req,res) =>{
+
      const slot =await Slot.findById(req.params.id)
      res.render("slots/book",{title:"Booking",slot,csrfToken:req.csrfToken()})
   
@@ -115,6 +116,6 @@ exports.updateUser = async(req,res)=>{
     user.name = req.body.name;
     user.password = req.password;
  await user.save();
-// console.log(req.body)
+// console.log(user)
  res.redirect(302,'/bookings')
 }
