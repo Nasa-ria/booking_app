@@ -39,16 +39,24 @@ passport.deserializeUser(function(user,cb){
 router.use(passport.initialize());
 router.use(passport.session());
 
+ const permitted=['/'];
 
 const loginAuthentication = (req,res,next) =>{
     res.locals.isAuthenticated = false;
-    if(req.isAuthenticated()){
-        res.locals.isAuthenticated = true;
-        next()
-    }else{
-        res.redirect('/users/login')
+    // whitelisting 
+    res.locals.whitelisted = false;
+
+    if(req.path === '/'){
+        res.locals.whitelisted = true; 
     }
-}
+        if(req.isAuthenticated()){
+        res.locals.isAuthenticated = true;  
+     }else{
+        res.redirect('/users/login')
+       
+    }
+    next();
+} 
 
 
 
@@ -62,11 +70,14 @@ router.post('/users/login',
 passport.authenticate("local",{failureRedirect:"/users/login"}),
 controller.authenticatelogin
 )
-
-
 router.use(loginAuthentication)
 
+
+//  to access everything below  router.use(loginAuthentication) will have to login first
 router.get('/users/profile',controller.profile)
+
+
+router.get('/users/logout',controller.logout)
 
 
 

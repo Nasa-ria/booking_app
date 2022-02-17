@@ -10,7 +10,7 @@ exports.login = async(req,res)=>{
     res.render("users/login",{title:"login-formn"})
 }
 exports.authenticatelogin = async(req,res) =>{
-    // console.log(req.body)
+    
     res.redirect(302,"/")
 }
 
@@ -18,7 +18,10 @@ exports.profile = async(req,res)=>{
     res.render("users/profile",{title:"Users-profile"})
 }
 
-
+exports.logout =async(req,res)=>{
+    req.logout()
+    res.render("users/logout",{title :"logout"})
+}
 
 
 exports.edit = async(req,res)=>{ 

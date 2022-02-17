@@ -1,43 +1,36 @@
-
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/home.css">
-    <title><%-title %></title>
-</head>
-<body>
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="/css/home.css" />
+		<title><%-title %></title>
+	</head>
+	<body>
+		<% if(typeof isAuthenticated != 'undefined' && isAuthenticated || typeof whitelisted != 'undefined' && whitelisted){ %>
+          <nav class="nav">
+			<ul class="nav_ul">
+				<li class="nav_list"><a href="/">Home</a></li>
+				<li class="nav_list"><a href="/slots">Slots</a></li>
+				<li class="nav_list"><a href="/bookings">Bookings</a></li>
+               <% if( isAuthenticated ){ %>
+                    <li class="nav_list"><a href="/users/logout">Logout</a></li>
+               <% }else{ %>
+				<li class="nav_list"><a href ="/users/login">Login</a></li>
+                <% } %>
+			</ul>
+		     </nav>
+         
+		<% } %>
 
-    <% if(typeof isAuthenticated != 'undefined' && isAuthenticated){ %>
-
-        <nav class=" nav ">
-            <ul class="nav_ul">
-                <li class="nav_list"> <a href ="/">Home</a></li>
-                <li class="nav_list"><a href ="/slots">Slots</a></li>
-                <li class="nav_list"><a href ="/bookings">Bookings</a></li>
-                <li class="nav_list"><a href ="/users/login">Login</a></li>
-               
-            </ul>
-          
-        </nav>
-    <% } %>
-
-   
-    <%- body -%>
-    
-
-
-    <footer>
-
-  
-        <div class="footer">© 2022 Sari LP.
-             The Sari design is a trademark of Sari LP.
-            </div>  
-    
-
-        
-    </footer>
-</body>
+        <div>
+        <%- body -%>
+    </div>
+		<footer>
+			<div class="footer">
+				© 2022 Sari LP. The Sari design is a trademark of Sari LP.
+			</div>
+		</footer>
+	</body>
 </html>
