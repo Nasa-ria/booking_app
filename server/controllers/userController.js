@@ -20,7 +20,10 @@ exports.profile = async(req,res)=>{
 
 exports.logout =async(req,res)=>{
     req.logout()
-    res.render("users/logout",{title :"logout"})
+
+res.redirect(302,'/')
+
+    // res.render("users/logout",{title :"logout"})
 }
 
 

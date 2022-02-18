@@ -69,9 +69,10 @@ app.set("view engine","ejs")
 
 // requiring approute
 
+
+
 const userroute = require("./server/routes/userRoutes");
 app.use('/',userroute)
-
 
 
 
@@ -103,7 +104,7 @@ app.use((error,req,res,next)=>{
 })
 
 // port
-const PORT= process.env.PORT|7000
+const PORT= process.env.PORT|3000
 app.listen(PORT ,()=>{
     console.log(`Port is listening on  port ${PORT}`)
 })
