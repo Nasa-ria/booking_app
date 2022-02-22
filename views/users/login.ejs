@@ -1,5 +1,12 @@
 
 
+<div>
+    <h2>login</h2>
+    <% if (message !== 'undefined'){  %>
+        <%= message %>
+   <% } %>
+</div>
+
 <form method="Post"  >
     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
 <div>

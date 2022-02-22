@@ -6,25 +6,25 @@ const LocalStrategy = require ("passport-local")
 // requiring the appcontroller to to enable users
 const controller = require("../controllers/userController")
 const User = require ("../models/User")
-
-
-
 // creating a variable tha holds object for declaring route within our application
 const router = require("express").Router();
 
 passport.use(
-    new LocalStrategy(async function verify(username,password,cb){
+    new LocalStrategy({passReqToCallback :true},async function verify(req,username,password,cb){
         // checks if the phone number inputed  matches 
       const user = await User.findOne({phone_number:username})
       if(user){
+        //   user attempt
+        if(!user.status){
         //   and the password too
          if(user.password === password)
          return cb(null,user)  /* verification succesfull */
-         } 
-          
-         return cb(null , false); /* verification failed */
-        
-     
+         } else{
+        return cb(null,false,{message:'your account has been deactivated'})
+         }  
+        }
+         Tracklogin(req,user) 
+         return cb(null , false,{message:"incorrect  phone number or password"}); /* verification failed */ 
     })
 );
 
@@ -41,6 +41,26 @@ router.use(passport.session());
 
  const permitted=['/'];
 
+
+const Tracklogin = async(req,user)=>{
+    const session  = req.session;
+    if(!session.maxFailedAttempts){
+        session.maxFailedAttempts =5;
+    }else{
+        session.maxFailedAttempts -=1;
+        const maxFailedAttempts = session.maxFailedAttempts;
+        if(maxFailedAttempts <=1){
+            user.status= false ;
+        await user.save();    
+      }
+    }
+
+   
+   console.log(req.session. maxFailedAttempts)
+}
+
+
+
 const loginAuthentication = (req,res,next) =>{
     res.locals.isAuthenticated = false;
     // whitelisting 
@@ -48,13 +68,17 @@ const loginAuthentication = (req,res,next) =>{
 
     if(req.path === '/'){
         res.locals.whitelisted = true; 
-    }
+        if(req.isAuthenticated()){
+            res.locals.isAuthenticated = true;  
+            }
+    }else{
         if(req.isAuthenticated()){
         res.locals.isAuthenticated = true;  
      }else{
-        res.redirect('/users/login')
+       return res.redirect('/users/login')
        
     }
+}
     next();
 } 
 
@@ -67,7 +91,7 @@ router.get('/users/login',controller.login)
 // outsourcing the authication to  passport
 router.post('/users/login',
 // middleware
-passport.authenticate("local",{failureRedirect:"/users/login"}),
+passport.authenticate("local",{failureRedirect:"/users/login",failureFlash:true}),
 controller.authenticatelogin
 )
 router.use(loginAuthentication)

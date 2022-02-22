@@ -1,4 +1,4 @@
-// requiring express,cors,express-ejs-layouts,crsf,express-session,cookie-parser
+// requiring express,cors,express-ejs-layouts,crsf,express-session,cookie-parser,express-flash
 const express =require('express')
 const expressLayouts = require( "express-ejs-layouts")
 // const cors = require("cors");
@@ -7,30 +7,8 @@ const cookieparser = require("cookie-parser")
 const csurf = require("csurf");
 const session =require('express-session'); 
 const csrf =require("csurf");
-//  const passport = require("passport")
-//  const LocalStrategy = require ("passport-local")
+const flash = require("express-flash");
 app = express()
-
-
-
-// passport middleware
-// router.use(passport.initialize());
-// router.use(passport.session());
-
-// passport.use(
-//     new LocalStrategy(function verify(username,password,cd){
-//         const user ={};
-//         return cb(null,user)
-//     })
-// );
-
-// passport.serializeUser(function(user,cd){
-//     return cd(null,user)
-// });
-
-// passport.deserializeUser(function(user,cd){
-//     return cd(null,user)
-// });
 
 
 
@@ -40,6 +18,7 @@ app = express()
 app.use(express.static("public"))
 app.use(express.urlencoded({ extended: true }))
 app.use(expressLayouts);
+app.use(flash())
 // cookie
 app.use(cookieparser());
 // expresssession
@@ -57,6 +36,7 @@ app.use(session({
 
 
 // csrf
+
 const  csrfProtection = csrf({cookie:true});
 app.use(csrfProtection);
 

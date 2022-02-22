@@ -17,10 +17,7 @@ exports.index = async (req, res) => {
 
 
 	// console.log(bookings);
-	res.render("bookings/index", {
-		title: "Booking",
-		bookings,
-		booking_display,
+	res.render("bookings/index", {title: "Booking",bookings,booking_display,
 		csrfToken: req.csrfToken(),
 	});
 };

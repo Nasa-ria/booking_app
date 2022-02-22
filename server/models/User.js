@@ -10,9 +10,12 @@ const UsersSchema =  new mongoose.Schema({
   },
   password:{
       type:String
-  }
+  },
   
-
+  staus:{
+     type: Boolean,
+     default:true 
+  }
     
 
 })

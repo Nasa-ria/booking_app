@@ -6,11 +6,12 @@ exports.index = async(req,res)=>{
 }
 
 exports.login = async(req,res)=>{
+    const message = req.flash().error;
     res.locals.csrfToken = req.csrfToken()
-    res.render("users/login",{title:"login-formn"})
+    res.render("users/login",{title:"login-formn",message})
 }
-exports.authenticatelogin = async(req,res) =>{
-    
+
+exports.authenticatelogin = async(req,res) =>{ 
     res.redirect(302,"/")
 }
 
@@ -19,11 +20,10 @@ exports.profile = async(req,res)=>{
 }
 
 exports.logout =async(req,res)=>{
+    // res.local.csrfToken = req.csrfToken();
     req.logout()
-
 res.redirect(302,'/')
 
-    // res.render("users/logout",{title :"logout"})
 }
 
 
