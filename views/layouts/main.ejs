@@ -10,17 +10,14 @@
 	<body>
 		
 		<% if((typeof isAuthenticated != 'undefined' && isAuthenticated )||( typeof whitelisted != 'undefined' && whitelisted)){ %>
-	
+	 
           <nav class="nav">
-				<ul class="nav_ul">
-				<li class="nav_list"><a href="/">Home</a></li>
-				<li class="nav_list"><a href="/slots">Slots</a></li>
-				<li class="nav_list"><a href="/bookings">Bookings</a></li>
-               <% if( isAuthenticated ){ %>
-                    <li class="nav_list"><a href="/users/logout">Logout</a></li>
-               <% }else{ %>
-				<li class="nav_list"><a href ="/users/login">Login</a></li>
-                <% } %>
+			<ul class="nav_ul">
+			<% if (typeof navigation != "undefined"){ %>
+				<% navigation.forEach(nav =>{ %>
+					<li class="nav_list"><a href="<%= nav.url %>"><%= nav.name %></a></li>
+					<% }) %>	
+		  <% } %>
 			</ul>
 		     </nav>
          

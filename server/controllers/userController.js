@@ -2,7 +2,7 @@ require("../models/mongooseConnection")
 const User = require("../models/User")
 
 exports.index = async(req,res)=>{
-    res.render("users/index",{title:"Users"})
+    res.render("users/index",{title:"Users",user})
 }
 
 exports.login = async(req,res)=>{
@@ -22,7 +22,7 @@ exports.profile = async(req,res)=>{
 exports.logout =async(req,res)=>{
     // res.local.csrfToken = req.csrfToken();
     req.logout()
-res.redirect(302,'/')
+res.redirect(302,'/pages/home')
 
 }
 

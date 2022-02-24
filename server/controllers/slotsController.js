@@ -75,6 +75,7 @@ const booking =  new Booking({
     service:req.body.service,
     slot:req.params.id
 })
+console.log(booking)
 await booking.save()
 
 // reducing slot by one after saving

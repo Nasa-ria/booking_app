@@ -13,17 +13,21 @@ exports.index = async (req, res) => {
 		.populate("user")
 		.populate("slot")
 		.sort({ user: -1, slot: 1 });
-	let booking_display = await Util.booking_user(bookings);
+	let booking_display = Util.booking_user(bookings);
 
 
-	// console.log(bookings);
-	res.render("bookings/index", {title: "Booking",bookings,booking_display,
+	console.log(bookings);
+	res.render("bookings/index", {
+		title: "Booking",
+		bookings,
+		booking_display,
 		csrfToken: req.csrfToken(),
 	});
 };
 
 exports.add = async (req, res) => {
 	const slot = await Slot.find({});
+
 	res.render("bookings/add", {
 		title: "Booking",
 		slot,

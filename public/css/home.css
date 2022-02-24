@@ -8,9 +8,9 @@ background-color: black;
 }   */
 .nav{
     display: flex;
-    justify-content:center;
+    justify-content:right;
     align-items: center;
-    margin-top:2em;
+    margin-top:3em;
     /* background-color: orange; */
     /* margin-left: 25em; */
    
@@ -18,14 +18,15 @@ background-color: black;
 .nav_ul{
     list-style: none;
     display: flex;
-    flex-direction: row;
-    gap: 12px;
+    flex-direction: column;
+    gap: 15px;
    
 
 }
 .nav_list{
  font-size: 17px;
  color: orangered;
+ margin-right: 2em;
  /* font-weight: bold; */
 }
 .nav_list a{
@@ -36,7 +37,7 @@ background-color: black;
     background-image: url("/images/istockphoto-122.jpg");
     background-repeat: no-repeat;
     height: 30em;
-    margin-top: -5em;
+    margin-top: -13em;
 }
 .header_li {
     color:orangered;
@@ -57,21 +58,29 @@ background-color: black;
     color: orangered;
     margin-left: 44em;
 }
-
-
-
-
-
 .slide-2{
-    margin-top: 4em;
+    margin-top: 6.5em;
+    display: flex;
+    justify-content: right;
 }
+.slide-3{
+    /* margin-right: 2  em; */
+    display: flex;
+    /* width: 30em; */
+}
+.slide-4{
+    display: flex;
+    justify-content: right;
+}  
+
+
+
 .footer{
     color: white;
     font-size: 12px;
 }
 
-/* .mySlides {display: none;}
-img {vertical-align: middle;} */
+
 
 /* Slideshow container */
 .slideshow-container {
@@ -115,20 +124,28 @@ img {vertical-align: middle;} */
 .text-message{
     margin-top: 5.3em;
     background-color:white;
-    height: 15em;
+    height: 25em;
 }
 .txt{
 text-align: center;
-font-size: 27px;
-margin-top: -5em;
+font-size: 17px;
+margin-top: -12em;
+display: flex;
+justify-content: center;
+
+}
+.txt-head{
+    margin-top: -16em;
+
 }
 .search{
     width: 20em;
-    border-radius: 2em;
+    /* border-radius: 2em; */
     height: 3em;
     margin-left: 35em;
-    margin-top: 1em;
-    background-color: orangered;
+    margin-top: 3em;
+    outline-color:black;
+    margin-bottom: 4em;
 
 }
 .search ::placeholder{

@@ -23,6 +23,7 @@ exports. booking_user = (bookings) => {
 	if (bookings) {
 		let user = "";
 		bookings.forEach((booking, index) => {
+		    if(booking.user){
 			if (user != booking.user._id) {
 				display +=   "client Name :" + booking.user.name + "<br>";
 				display += "booking date:" + booking.slot.slot_date.toDateString() + "<br>";
@@ -32,6 +33,7 @@ exports. booking_user = (bookings) => {
 				display +=
 					"booking date:" + booking.slot.slot_date.toDateString() + "<br>" ;
                     display += "service opted for :" + booking.service + "</ul>" + "</dv>";
+			}
 			}
 		});
 	} else {
