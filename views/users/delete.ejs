@@ -1,0 +1,22 @@
+<form method="Post"  >
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+<div>
+    <label for=""> name </label>
+    <input type="text" name="name"  value="<%= user.name %>" placeholder="enter your name " readonly><br>
+</div>
+
+    <label for=""> phone number </label>
+    <input type="text" name="phone_number" value ="<%= user.phone_number %>" readonly><br>
+</div>
+
+<div>
+    <label for=""> password</label>
+    <input type="text" name="password" value ="<%= user.password %>"readonly >
+</div>
+
+<h1>are you sure about this</h1>
+
+<button  type="submit" value="Submit"> yes</button>
+<a href="/users">no</a>
+
+</form>

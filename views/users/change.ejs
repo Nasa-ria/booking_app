@@ -1,0 +1,26 @@
+<div>
+  
+    <% if ( typeof message !== 'undefined'){  %>
+        <%= message %>
+   <% } %>
+<div>
+
+<form method="Post"  >
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+<div>
+    <label for=""> current password </label>
+    <input type="text" name="current_password" placeholder="enter  your current password"><br>
+</div>
+
+<div>
+    <label for=""> new password </label>
+    <input type="text" name="new_password" placeholder="enter  new password"><br>
+</div>
+
+
+<div>
+    <label for=""> confirm password </label>
+    <input type="text" name="confirm_password" placeholder=" re-enter new  your password"><br>
+</div>
+
+<button  type="submit" value="Submit"> change</button>

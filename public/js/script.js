@@ -1,3 +1,4 @@
+// text slides
 var slideIndex = 0;
 showSlides();
 
@@ -17,3 +18,23 @@ function showSlides() {
   dots[slideIndex-1].className += " active";
   setTimeout(showSlides, 2000); // Change image every 2 seconds
 }
+
+
+let sliderImages = document.querySelectorAll(".slide"),
+  arrowLeft = document.querySelector("#arrow-left"),
+  arrowRight = document.querySelector("#arrow-right"),
+  current = 0;
+  
+// Clear all images
+function reset() {
+  for (let i = 0; i < sliderImages.length; i++) {
+    sliderImages[i].style.display = "none";
+  }
+}
+  
+// Initial slide
+function startSlide() {
+  reset();
+  sliderImages[0].style.display = "block";
+}
+  

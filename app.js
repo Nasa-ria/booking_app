@@ -26,7 +26,7 @@ app.use(session({
     secret:process.env.SECRET,
     resave:true,
     saveUninitialized:true,
-    cookie: { maxAge: 5 * 60 * 1000 ,secure:false} // 5mins
+    cookie: { maxAge: 10 * 60 * 1000 ,secure:false} // 5mins
   
 }))
 
@@ -84,7 +84,7 @@ app.use((error,req,res,next)=>{
 })
 
 // port
-const PORT= process.env.PORT|3000
+const PORT= process.env.PORT|7000
 app.listen(PORT ,()=>{
     console.log(`Port is listening on  port ${PORT}`)
 })

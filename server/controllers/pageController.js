@@ -2,6 +2,6 @@
 
 exports.home = async(req, res) => {
   
-res.render("pages/home",{title:"Home"})
+res.render("pages/home",{title:"Home",activeNav :"home"})
 }
 

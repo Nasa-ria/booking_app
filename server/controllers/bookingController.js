@@ -4,6 +4,7 @@ const Booking = require("../models/Booking");
 const Slot = require("../models/Slot");
 const FailedBooking = require("../models/FailedBooking");
 const User = require("../models/User");
+const bcrypt = require('bcrypt')
 
 const Util = require("./functions");
 
@@ -18,14 +19,15 @@ exports.index = async (req, res) => {
 
 	console.log(bookings);
 	res.render("bookings/index", {
-		title: "Booking",
+		title: "Booking",activeNav :"booking",
 		bookings,
 		booking_display,
-		csrfToken: req.csrfToken(),
-	});
+		csrfToken: req.csrfToken(),});
 };
 
 exports.add = async (req, res) => {
+	const authorizatedRoles=['admin','user']
+	 Util.authorization(req,res,authorizatedRoles);
 	const slot = await Slot.find({});
 
 	res.render("bookings/add", {
@@ -107,8 +109,10 @@ exports.save = async (req, res) => {
 exports.updateUser = async (req, res) => {
 	let phone_number = req.body.phone_number;
 	const user = await User.findOne({ phone_number: phone_number });
+	const hashedPassword = await bcrypt.hash(req.body.password,10)
 	user.name = req.body.name;
-	user.password = req.body.password;
+	// user.password = req.password;
+	user.password = hashedPassword;
 	await user.save();
 	console.log(user)
 	res.redirect(302, "/bookings");

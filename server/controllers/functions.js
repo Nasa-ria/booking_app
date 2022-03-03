@@ -20,6 +20,7 @@ exports.getuser = async(phone_number)=>{
 // check if user has already book and if yes it add to it either than create a bookings display
 exports. booking_user = (bookings) => {
 	let display = "<div>";
+	
 	if (bookings) {
 		let user = "";
 		bookings.forEach((booking, index) => {
@@ -41,3 +42,19 @@ exports. booking_user = (bookings) => {
 	}
 	return display;
 };
+/**
+ * check for authorization  based on the role
+ * 
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} role 
+ * @returns 
+ */
+exports.authorization = async (req,res,role) => {
+	console.log(role)
+	console.log(req.user.role)
+	if(!role.includes(req.user.role )){
+		 return res.render('error/unauthorized',{title:"Error"})
+	}
+
+}

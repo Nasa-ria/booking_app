@@ -2,7 +2,7 @@
 const express = require("express");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
-
+const bcrypt = require('bcrypt')
 // requiring the appcontroller to to enable users
 const controller = require("../controllers/userController");
 const User = require("../models/User");
@@ -17,8 +17,10 @@ passport.use(
 		if (user) {
 			//   user attempt
 			if (user.status) {
+				const passwordVerified = await bcrypt.compare(password ,user.password)
 				//   and the password too
-				if (user.password === password) {
+				if(passwordVerified){
+				// if (user.password === password) {
 					return cb(null, user); /* verification succesfull */
 				}
 			} else {
@@ -50,18 +52,19 @@ router.use(passport.session());
 // function to hide the user form accesseing the slot
 
 const Hidenav = (req,res,next) =>{
-	let nav = [{url:"/",name:"Home"}]
+	let nav = [{url:"/",name:"Home",active:"home"}]
 	if(req.user){
 	if(req.user.role =='user'){
-		 nav.push({url:"/bookings",name:"Booking"})
+		 nav.push({url:"/bookings",name:"Booking",active:"booking"})
 	}else{
-		nav.push({url:"/slots",name:"Slots"})
+		let Adminnav= [{url:"/slots",name:"Slots",active:"slot"},{url:"/users",name:"Users",active:"user"},{url:"/bookings",name:"Booking",active:"booking"}]
+		nav = nav.concat(Adminnav)
 	}
 	}
 	if(req.isAuthenticated()){
-	nav.push({url:"/logout",name:"Logout"})
+	nav.push({url:"/users/logout",name:"Logout"},{url:"/users/profile",name:"Profile",active:"profile"})
 	}else{
-		nav.push({url:"/login",name:"Login"})
+		nav.push({url:"/users/login",name:"Login"})
 	}
 	console.log(nav)
 	res.locals.navigation = nav
@@ -69,16 +72,6 @@ const Hidenav = (req,res,next) =>{
 
 }
 
-// const Hidenav = (req,res,next) =>{
-	
-// 	if(req.user == "user"){
-// 		res.locals.user = true
-// 	}else{
-// 		res.locals.user = false
-// 	}
-
-// 	next()
-// }
 
 
 
@@ -148,14 +141,20 @@ router.get("/users/profile", controller.profile);
 
 router.get("/users/logout", controller.logout);
 
+router.get("/users/change-password",controller.change);
+router.post("/users/change-password",controller.savechange)
+
+router.get("/users/force-password/:id",controller.forcepassword)
+// router.post("/user/force-password",controller.saveforcepassword)
+
 router.get("/users", controller.index);
-router.get("/edit/:user_id", controller.edit);
-router.post("/edit/:user_id", controller.update);
+router.get("/users/edit/:id", controller.edit);
+router.post("/users/edit/:id", controller.update);
 
-router.get("/add", controller.add);
-router.post("/add", controller.save);
+router.get("/users/add", controller.add);
+router.post("/users/add", controller.save);
 
-router.get("/delete", controller.getdelete);
-router.post("/delete", controller.delete);
+router.get("/users/delete/:id", controller.getdelete);
+router.post("/users/delete/:id", controller.delete);
 
 module.exports = router;
