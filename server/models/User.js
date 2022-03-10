@@ -10,7 +10,7 @@ const UsersSchema =  new mongoose.Schema({
   },
   password:{
       type:String
-  },
+  }, 
   
   status:{
      type: Boolean,

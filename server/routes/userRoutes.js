@@ -10,7 +10,7 @@ const User = require("../models/User");
 const router = require("express").Router();
 
 passport.use(
-	new LocalStrategy({ passReqToCallback: true }, async function verify(req,username,password,cb,) {
+	new LocalStrategy({ passReqToCallback: true }, async function verify(req,username,password,cb) {
 		// checks if the phone number inputed  matches
 		const user = await User.findOne({ phone_number: username });
         console.log(user)
@@ -20,9 +20,9 @@ passport.use(
 				const passwordVerified = await bcrypt.compare(password ,user.password)
 				//   and the password too
 				if(passwordVerified){
-				// if (user.password === password) {
 					return cb(null, user); /* verification succesfull */
-				}
+				
+			}
 			} else {
 				return cb(null, false, {
 					message: "your account has been deactivated",
@@ -52,7 +52,7 @@ router.use(passport.session());
 // function to hide the user form accesseing the slot
 
 const Hidenav = (req,res,next) =>{
-	let nav = [{url:"/",name:"Home",active:"home"}]
+	let nav = [{url:"/",name:"Home",active:"home"},{url:"bookings/add",name:"Book Us"}]
 	if(req.user){
 	if(req.user.role =='user'){
 		 nav.push({url:"/bookings",name:"Booking",active:"booking"})
@@ -72,6 +72,41 @@ const Hidenav = (req,res,next) =>{
 
 }
 
+
+const enforcePasswordChange= async(req,res,next)=>{
+	res.locals.csrfToken = req.csrfToken()
+	// console.log(req.user)
+	
+	if(typeof req.body.forcePassword === "undefined"){
+		console.log( req.body.forcePassword )
+		if(req.isAuthenticated() && req.user.force_change_password){
+			console.log("users")
+			// res.locals.forcePassword =1
+			// const enforcepassword = req.user.force_change_password
+			return res.render("users/change",{title:"change-password" ,forcePassword:1})
+		}else{
+		next()
+	   }
+	}else{ 
+		console.log("hi")
+            next()
+	}
+	//    	if((typeof req.user  != 'undefined' ) && ( typeof req.user.force_change_password !='undefined')) {
+	// 	const enforcepassword = req.user.force_change_password
+	// // console.log(req.user.force_change_password)
+	//   if(  enforcepassword === true ){
+	// 	  res.locals.forcePassword =1
+	// 	  console.log("loop not breaking")
+	// 	 await User.findById(req.user._id)
+	//        res.render("users/change",{title:"change-password" })
+    //    }else{
+	//       next();
+    //        }
+	// }else{
+	// 	next();
+	//   }
+
+}
 
 
 
@@ -133,6 +168,7 @@ router.post(
 	controller.authenticatelogin,
 );
 router.use(loginAuthentication);
+router.use(enforcePasswordChange)
  router.use(Hidenav);
 
 
@@ -145,7 +181,7 @@ router.get("/users/change-password",controller.change);
 router.post("/users/change-password",controller.savechange)
 
 router.get("/users/force-password/:id",controller.forcepassword)
-// router.post("/user/force-password",controller.saveforcepassword)
+router.post("/users/force-password/:id",controller.saveforcepassword)
 
 router.get("/users", controller.index);
 router.get("/users/edit/:id", controller.edit);

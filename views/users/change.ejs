@@ -5,8 +5,9 @@
    <% } %>
 <div>
 
-<form method="Post"  >
+<form method="Post"  action="/users/change-password" >
     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <input type="hidden" name="forcePassword" value="<%=  typeof forcePassword != 'undefined' ? forcePassword : 0 %>">
 <div>
     <label for=""> current password </label>
     <input type="text" name="current_password" placeholder="enter  your current password"><br>
@@ -23,4 +24,4 @@
     <input type="text" name="confirm_password" placeholder=" re-enter new  your password"><br>
 </div>
 
-<button  type="submit" value="Submit"> change</button>
+<button type="submit">submit</button>
