@@ -1,3 +1,5 @@
+<a href="slots/add">add slot</a>
+
 <div>
     <div >
         <ul> 
@@ -5,7 +7,7 @@
     <% if (typeof slots != 'undefined'){  %> 
         <%	slots.forEach((slot) =>{ %>
             <li> 
-    <p>slot date : <%- slot.slot_date.getDate() %>-0<%- slot.slot_date.getMonth() %>-<%- slot.slot_date.getFullYear() %></p>
+    <p>slot date : <%- slot.slot_date.toDateString() %></p>
     <p>quantity: <%- slot.quantity %></p>
 
    

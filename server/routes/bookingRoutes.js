@@ -10,8 +10,8 @@ router.get('/',controller.index)
 
 
 // add
-router.get('/add',controller.add)
-router.post('/add',controller.save)
+router.get('/add/:id',controller.add)
+router.post('/add/:id',controller.save)
 
 
 // edit

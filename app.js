@@ -1,4 +1,4 @@
-// requiring express,cors,express-ejs-layouts,crsf,express-session,cookie-parser
+// requiring express,cors,express-ejs-layouts,crsf,express-session,cookie-parser,express-flash
 const express =require('express')
 const expressLayouts = require( "express-ejs-layouts")
 // const cors = require("cors");
@@ -7,8 +7,10 @@ const cookieparser = require("cookie-parser")
 const csurf = require("csurf");
 const session =require('express-session'); 
 const csrf =require("csurf");
-
+const flash = require("express-flash");
 app = express()
+
+
 
 
 //  *********middleware***
@@ -16,6 +18,7 @@ app = express()
 app.use(express.static("public"))
 app.use(express.urlencoded({ extended: true }))
 app.use(expressLayouts);
+app.use(flash())
 // cookie
 app.use(cookieparser());
 // expresssession
@@ -23,7 +26,8 @@ app.use(session({
     secret:process.env.SECRET,
     resave:true,
     saveUninitialized:true,
-    cookie:{secure:false}
+    cookie: { maxAge: 10 * 60 * 1000 ,secure:false} // 5mins
+  
 }))
 
 // allows  acces
@@ -32,21 +36,9 @@ app.use(session({
 
 
 // csrf
+
 const  csrfProtection = csrf({cookie:true});
 app.use(csrfProtection);
-
-// app.use(function(req,res,next){
-//     csrfProtection(req,res,function(err){
-//         if(err){
-//             next(err)
-//         }
-//         else{
-//             res.locals.cssrfToken =req.csrfToken()
-//         }
-//     })
-// })
-
-
 
 
 // **** view setting
@@ -56,6 +48,14 @@ app.set("layout","./layouts/main")
 app.set("view engine","ejs")
 
 // requiring approute
+
+
+
+const userroute = require("./server/routes/userRoutes");
+app.use('/',userroute)
+
+
+
 const route = require("./server/routes/pageRoutes")
 app.use('/',route)
 
@@ -70,8 +70,7 @@ const failedbookingroute = require("./server/routes/failedbookingRoutes")
 app.use('/failedbookings',failedbookingroute)
 
 
-const userroute = require("./server/routes/userRoutes");
-app.use('/users',userroute)
+
 
 // error hadler 404
 app.all('*' ,(req,res)=>{
@@ -85,7 +84,10 @@ app.use((error,req,res,next)=>{
 })
 
 // port
-const PORT= process.env.PORT|3000
+
+
+const PORT= process.env.PORT|1000
+
 app.listen(PORT ,()=>{
     console.log(`Port is listening on  port ${PORT}`)
 })

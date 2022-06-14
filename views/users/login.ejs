@@ -1,0 +1,48 @@
+
+
+
+<!-- <form method="Post"  >
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+<div>
+    <label for=""> phone number </label>
+    <input type="text" name="username" placeholder="enter phone number"><br>
+</div>
+
+<div>
+    <label for=""> password</label>
+    <input type="text" name="password" placeholder="type in your password">
+</div>
+  
+
+<div>
+    <a href="/users/forget-password">forget Password</a>
+</div>
+
+<button  type="submit" value="Submit"> Login</button>
+
+</form> -->
+
+<div class="bg">
+    <div>
+
+        <% if (message !== 'undefined'){  %>
+            <%= message %>
+       <% } %>
+    </div>
+
+<form class="codehim-form"  method="Post">
+    <div class="form-title">
+       <div class="user-icon gr-bg">
+          <i class="fa fa-user"></i>
+       </div>
+       <h2>  Login Form</h2>
+    </div>
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <label for="text"><i class="fa fa-envelope"></i> Phone Number :</label> 
+    <input type="text" id="email" name="username"  class="cm-input" placeholder="Enter your phone number ">
+    <label for="pass"><i class="fa fa-lock"></i> Password:</label>
+    <input id="pass" type="password"   name="password" class="cm-input" placeholder="Enter your password">
+    <a href="/users/forget-password">forget Password</a>
+    <button type="submit" class="btn-login  gr-bg">Login</button>
+ </form>
+</div>

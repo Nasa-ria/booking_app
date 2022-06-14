@@ -3,17 +3,23 @@ require("../models/mongooseConnection")
   const Booking = require("../models/Booking")
     const FailedBooking = require("../models/FailedBooking")
     const User = require("../models/User")
+    const bcrypt = require('bcrypt')
     
 
 // fetching the function that checks and save the user
 const Util = require("./functions") 
 
 exports.index = async(req,res)=>{
+    // check if user is authorized
+    // const authorizatedRoles=['admin']
+//    return   Util.authorization(req,res,authorizatedRoles);
     const slots = await Slot.find({})
     res.render("slots/index",{title:"Slot",slots})
 }
 
 exports.add = async(req,res)=>{  
+    const authorizatedRoles=['admin']
+    Util.authorization(req,res,authorizatedRoles);
     res.render("slots/add",{title:"Slot", csrfToken:req.csrfToken()})
 }
 
@@ -51,6 +57,8 @@ exports.delete = async(req,res) =>{
 }
 // book
  exports.book  =async(req,res) =>{
+    const authorizatedRoles=['admin']
+     return Util.authorization(req,res,authorizatedRoles);
      const slot =await Slot.findById(req.params.id)
      res.render("slots/book",{title:"Booking",slot,csrfToken:req.csrfToken()})
   
@@ -74,6 +82,7 @@ const booking =  new Booking({
     service:req.body.service,
     slot:req.params.id
 })
+// console.log(booking)
 await booking.save()
 
 // reducing slot by one after saving
@@ -112,9 +121,11 @@ res.redirect(302,'/bookings')
 exports.updateUser = async(req,res)=>{
     let phone_number = req.body.phone_number
     const user = await User.findOne({phone_number:phone_number})
+    const hashedPassword = await bcrypt.hash(req.body.password,10)
     user.name = req.body.name;
     user.password = req.password;
+    user.password = hashedPassword;
  await user.save();
-// console.log(req.body)
+// console.log(user)
  res.redirect(302,'/bookings')
 }

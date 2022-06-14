@@ -4,50 +4,36 @@ const Booking = require("../models/Booking");
 const Slot = require("../models/Slot");
 const FailedBooking = require("../models/FailedBooking");
 const User = require("../models/User");
+const bcrypt = require('bcrypt')
 
 const Util = require("./functions");
 
-const booking_user = (bookings) => {
-	let display = "<ul>";
-	if (bookings) {
-		let user = "";
-		bookings.forEach((booking, index) => {
-			if (user != booking.user._id) {
-				display += "<li>" + "client Name :" + booking.user.name + "</li>";
-				display += "booking date:" + booking.slot.slot_date.toString() + "<br>";
-				display += "service opted for :" + booking.service + "<br>";
-				user = booking.user._id;
-			} else {
-				display +=
-					"booking date:" + booking.slot.slot_date.toString() + "</ul>";
-			}
-		});
-	} else {
-		display = "no bookings found";
-	}
-	return display;
-};
-
+  const getNumber =async(req,res)=>{
+	  if(req.user == isAuthenticated()){
+		  const user = await User.findById(req.params.id)
+	  }
+  }
 exports.index = async (req, res) => {
 	const bookings = await Booking.find({})
 		.populate("user")
 		.populate("slot")
 		.sort({ user: -1, slot: 1 });
-	let booking_display = booking_user(bookings);
-	console.log(bookings);
+	let booking_display = Util.booking_user(bookings);
 	res.render("bookings/index", {
-		title: "Booking",
+		title: "Booking",activeNav :"booking",
 		bookings,
 		booking_display,
-		csrfToken: req.csrfToken(),
-	});
+		csrfToken: req.csrfToken(),});
 };
 
 exports.add = async (req, res) => {
+	const authorizatedRoles=['user']
+	 Util.authorization(req,res,authorizatedRoles);
 	const slot = await Slot.find({});
+    const booking =await Booking.findById(req.params.id)
 	res.render("bookings/add", {
 		title: "Booking",
-		slot,
+		slot,booking,
 		csrfToken: req.csrfToken(),
 	});
 };
@@ -57,7 +43,7 @@ exports.save = async (req, res) => {
 	let phone_number = req.body.phone_number;
 	// calling the function getuser  to be able to check the phone number logic
 	const user = await Util.getuser(phone_number);
-
+	// const booking = await Booking.findById(req.params.id)
 	// check for date
 	const booking_date = req.body.booking_date;
 	// // condition for checking date
@@ -80,7 +66,6 @@ exports.save = async (req, res) => {
 			slot: slot._id,
 			user: user._id,
 		});
-		// console.log(booking)
 		await booking.save();
 		// reducing slot by one after saving
 		slot.quantity -= 1;
@@ -125,10 +110,12 @@ exports.save = async (req, res) => {
 exports.updateUser = async (req, res) => {
 	let phone_number = req.body.phone_number;
 	const user = await User.findOne({ phone_number: phone_number });
+	const hashedPassword = await bcrypt.hash(req.body.password,10)
 	user.name = req.body.name;
-	user.password = req.body.password;
+	user.password = req.password;
+	user.password = hashedPassword;
 	await user.save();
-	// console.log(req.body)
+	console.log(user)
 	res.redirect(302, "/bookings");
 };
 
