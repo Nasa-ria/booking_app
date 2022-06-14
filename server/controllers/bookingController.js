@@ -8,16 +8,17 @@ const bcrypt = require('bcrypt')
 
 const Util = require("./functions");
 
-
+  const getNumber =async(req,res)=>{
+	  if(req.user == isAuthenticated()){
+		  const user = await User.findById(req.params.id)
+	  }
+  }
 exports.index = async (req, res) => {
 	const bookings = await Booking.find({})
 		.populate("user")
 		.populate("slot")
 		.sort({ user: -1, slot: 1 });
 	let booking_display = Util.booking_user(bookings);
-
-
-	console.log(bookings);
 	res.render("bookings/index", {
 		title: "Booking",activeNav :"booking",
 		bookings,
@@ -26,13 +27,13 @@ exports.index = async (req, res) => {
 };
 
 exports.add = async (req, res) => {
-	const authorizatedRoles=['admin','user']
+	const authorizatedRoles=['user']
 	 Util.authorization(req,res,authorizatedRoles);
 	const slot = await Slot.find({});
-
+    const booking =await Booking.findById(req.params.id)
 	res.render("bookings/add", {
 		title: "Booking",
-		slot,
+		slot,booking,
 		csrfToken: req.csrfToken(),
 	});
 };
@@ -42,7 +43,7 @@ exports.save = async (req, res) => {
 	let phone_number = req.body.phone_number;
 	// calling the function getuser  to be able to check the phone number logic
 	const user = await Util.getuser(phone_number);
-
+	// const booking = await Booking.findById(req.params.id)
 	// check for date
 	const booking_date = req.body.booking_date;
 	// // condition for checking date
@@ -111,7 +112,7 @@ exports.updateUser = async (req, res) => {
 	const user = await User.findOne({ phone_number: phone_number });
 	const hashedPassword = await bcrypt.hash(req.body.password,10)
 	user.name = req.body.name;
-	// user.password = req.password;
+	user.password = req.password;
 	user.password = hashedPassword;
 	await user.save();
 	console.log(user)

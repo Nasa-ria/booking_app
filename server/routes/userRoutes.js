@@ -13,7 +13,7 @@ passport.use(
 	new LocalStrategy({ passReqToCallback: true }, async function verify(req,username,password,cb) {
 		// checks if the phone number inputed  matches
 		const user = await User.findOne({ phone_number: username });
-        console.log(user)
+        // console.log(user)
 		if (user) {
 			//   user attempt
 			if (user.status) {
@@ -52,7 +52,7 @@ router.use(passport.session());
 // function to hide the user form accesseing the slot
 
 const Hidenav = (req,res,next) =>{
-	let nav = [{url:"/",name:"Home",active:"home"},{url:"bookings/add",name:"Book Us"}]
+	let nav = [{url:"/",name:"Home",active:"home"},{url:"/bookings",name:"Book Us"}]
 	if(req.user){
 	if(req.user.role =='user'){
 		 nav.push({url:"/bookings",name:"Booking",active:"booking"})
@@ -66,7 +66,7 @@ const Hidenav = (req,res,next) =>{
 	}else{
 		nav.push({url:"/users/login",name:"Login"})
 	}
-	console.log(nav)
+	
 	res.locals.navigation = nav
 	next();
 
@@ -80,7 +80,7 @@ const enforcePasswordChange= async(req,res,next)=>{
 	if(typeof req.body.forcePassword === "undefined"){
 		console.log( req.body.forcePassword )
 		if(req.isAuthenticated() && req.user.force_change_password){
-			console.log("users")
+		
 			// res.locals.forcePassword =1
 			// const enforcepassword = req.user.force_change_password
 			return res.render("users/change",{title:"change-password" ,forcePassword:1})
@@ -88,23 +88,10 @@ const enforcePasswordChange= async(req,res,next)=>{
 		next()
 	   }
 	}else{ 
-		console.log("hi")
+	
             next()
 	}
-	//    	if((typeof req.user  != 'undefined' ) && ( typeof req.user.force_change_password !='undefined')) {
-	// 	const enforcepassword = req.user.force_change_password
-	// // console.log(req.user.force_change_password)
-	//   if(  enforcepassword === true ){
-	// 	  res.locals.forcePassword =1
-	// 	  console.log("loop not breaking")
-	// 	 await User.findById(req.user._id)
-	//        res.render("users/change",{title:"change-password" })
-    //    }else{
-	//       next();
-    //        }
-	// }else{
-	// 	next();
-	//   }
+	
 
 }
 
@@ -155,6 +142,10 @@ const loginAuthentication = (req, res, next) => {
 };
 
 // login routers
+      
+router.get("/users/forget-password",controller.forgetPassword)
+router.post("/users/forget-password",controller.confirmPassword)
+
 
 router.get("/users/login", controller.login);
 // outsourcing the authication to  passport
@@ -167,7 +158,11 @@ router.post(
 	}),
 	controller.authenticatelogin,
 );
-router.use(loginAuthentication);
+
+
+router.use(loginAuthentication)
+
+
 router.use(enforcePasswordChange)
  router.use(Hidenav);
 
@@ -182,6 +177,8 @@ router.post("/users/change-password",controller.savechange)
 
 router.get("/users/force-password/:id",controller.forcepassword)
 router.post("/users/force-password/:id",controller.saveforcepassword)
+
+
 
 router.get("/users", controller.index);
 router.get("/users/edit/:id", controller.edit);

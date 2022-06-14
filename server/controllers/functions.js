@@ -6,10 +6,11 @@ const Booking = require("../models/Booking")
 exports.getuser = async(phone_number)=>{
     // retrive data based on the users phone number
     let user = await User.findOne({phone_number:phone_number})
+	await User.findById(req.params.id)
     // logic if no user save it
     if(!user){
        user = new User({
-           phone_number:phone_number
+           phone_number:req.params.id
 		   
        })
        await user.save()

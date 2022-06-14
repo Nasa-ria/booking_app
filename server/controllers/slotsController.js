@@ -11,8 +11,8 @@ const Util = require("./functions")
 
 exports.index = async(req,res)=>{
     // check if user is authorized
-    const authorizatedRoles=['admin']
-   return   Util.authorization(req,res,authorizatedRoles);
+    // const authorizatedRoles=['admin']
+//    return   Util.authorization(req,res,authorizatedRoles);
     const slots = await Slot.find({})
     res.render("slots/index",{title:"Slot",slots})
 }
@@ -82,7 +82,7 @@ const booking =  new Booking({
     service:req.body.service,
     slot:req.params.id
 })
-console.log(booking)
+// console.log(booking)
 await booking.save()
 
 // reducing slot by one after saving
@@ -123,7 +123,7 @@ exports.updateUser = async(req,res)=>{
     const user = await User.findOne({phone_number:phone_number})
     const hashedPassword = await bcrypt.hash(req.body.password,10)
     user.name = req.body.name;
-    // user.password = req.password;
+    user.password = req.password;
     user.password = hashedPassword;
  await user.save();
 // console.log(user)

@@ -46,6 +46,7 @@ exports.update = async (req, res) => {
 			name: req.body.name,
 			phone_number: req.body.phone_number,
 			password: hashedPassword,
+			password: req.body.password
 		},
 	);
 	res.redirect(302, "/users");
@@ -62,6 +63,7 @@ exports.save = async (req, res) => {
 	const user = new User({
 		name: req.body.name,
 		phone_number: req.body.phone_number,
+		password:req.body.password,
 		password: hashedPassword,
 		role: "admin",
 	});
@@ -137,7 +139,7 @@ exports.saveforcepassword= async (req, res) => {
 		  res.redirect(302, "/users");
         //   console.log("change password")
           
-      }else if(req.body.password_action== "resetPassword"){
+      }else if(req.body.password_action == "resetPassword"){
 		const newhashed = await bcrypt.hash(req.body.resetPassword, 10);
           const user = await User.updateOne({_id:req.params.id},{password:newhashed,force_change_password:false})
 		  res.redirect(302, "/users");
@@ -147,3 +149,31 @@ exports.saveforcepassword= async (req, res) => {
 	
 	res.redirect(302, "/users");
 };
+
+exports.forgetPassword = async (req,res)=>{
+	res.locals.csrfToken = req.csrfToken();
+const user = await User.find({})
+	res.render("users/forget_password",{title:"forget password",user})
+}
+exports.confirmPassword = async(req,res)=>{
+	const user = await User.findOne({phone_number:req.body.phone_number})
+	if(user){
+	
+
+		const result = Math.random().toString(36).substring(2,7);
+
+		const hashed = await bcrypt.hash( result, 10);
+		user.password = hashed
+		user.force_change_password = true;
+		await user.save()
+		
+		res.render("users/password_confirm",{title:"confirm password", result})
+	    
+
+	}else{
+		res.locals.message= "incorrect phone_number"
+		res.render("users/forget-password",{title:"forget password"})
+    
+	}
+	
+}
